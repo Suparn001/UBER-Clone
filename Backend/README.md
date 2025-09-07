@@ -1,0 +1,45 @@
+# User Registration Endpoint Documentation
+
+## Endpoint
+`POST /users/register`
+
+## Description
+This endpoint registers a new user by accepting their details, creating a user record, and returning an authentication token. It is defined in the [user.routes.js](Backend/routes/user.routes.js) and handled by [user.controller.js](Backend/controller/user.controller.js).
+
+## Request Data
+The endpoint expects a JSON payload with the following structure:
+
+- **fullName** (object):
+  - **firstName**: String (Required, minimum 3 characters)
+  - **lastName**: String (Optional, minimum 3 characters if provided)
+- **email**: String (Required, must be a valid email address)
+- **password**: String (Required, minimum 8 characters)
+
+**Example Request Body:**
+```json
+{
+  "fullName": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
+
+
+**Example Response:**
+```json
+{
+    "success": true,
+    "message": "User registered successfully.",
+    "data": {
+        "userId": "64a7f8e2b5d3c2a1f8e9b7c3",
+        "fullName": {
+            "firstName": "John",
+            "lastName": "Doe"
+        },
+        "email": "john.doe@example.com",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGE3ZjhlMmI1ZDNjMmExZjhlOWI3YzMiLCJpYXQiOjE2ODg4NzYwMDB9.abc123xyz456"
+    }
+}
+```
