@@ -7,7 +7,35 @@
 This endpoint registers a new user by accepting their details, creating a user record, and returning an authentication token. It is defined in the [user.routes.js](Backend/routes/user.routes.js) and handled by [user.controller.js](Backend/controller/user.controller.js).
 
 ## Request Data
+The endpoint expects a JSON payload with the following structure:# User Endpoints Documentation
+
+## Registration Endpoint
+
+### Endpoint
+`POST /users/register`
+
+### Description
+This endpoint registers a new user by accepting their details, creating a user record, and returning an authentication token. It is defined in the [user.routes.js](Backend/routes/user.routes.js) and handled by [user.controller.js](Backend/controller/user.controller.js).
+
+### Request Data
 The endpoint expects a JSON payload with the following structure:
+
+- **fullName** (object):
+  - **firstName**: String (Required, minimum 3 characters)
+  - **lastName**: String (Optional, minimum 3 characters if provided)
+- **email**: String (Required, must be a valid email address)
+- **password**: String (Required, minimum 8 characters)
+
+**Example Request Body:**
+```json
+{
+  "fullName": {
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
 
 - **fullName** (object):
   - **firstName**: String (Required, minimum 3 characters)
@@ -43,3 +71,52 @@ The endpoint expects a JSON payload with the following structure:
     }
 }
 ```
+
+
+
+# Login Endpoint Documentation
+
+## Endpoint
+`POST /users/login`
+
+## Description
+This endpoint logs in a user by verifying the provided credentials. Upon successful login, it returns an authentication token along with user details. It is defined in the [user.routes.js](Backend/routes/user.routes.js) and handled by [user.controller.js](Backend/controller/user.controller.js).
+
+## Request Data
+The endpoint expects a JSON payload with the following properties:
+- **email**: String (Required, must be a valid email address)
+- **password**: String (Required, minimum 8 characters)
+
+**Example Request Body:**
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
+```
+
+## Example Responses
+
+**Successful Response:**
+```json
+{
+  "success": true,
+  "token": "eyJhbGciOiJIUzI1N...", 
+  "user": {
+    "userId": "64a7f8e2b5d3c2a1f8e9b7c3",
+    "fullName": {
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+**Error Response:**
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
