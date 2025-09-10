@@ -141,3 +141,74 @@ No request body is required.
 }
 ```
 
+# Captain Registration Endpoint Documentation
+
+## Endpoint
+`POST /captain/register`
+
+## Description
+This endpoint registers a new captain by accepting personal details, login credentials, and vehicle information. It validates the payload and returns an authentication token along with the created captain's details.
+
+## Request Data
+The endpoint expects a JSON payload with the following structure:
+
+- **fullname** (object):
+  - **firstname**: String (Required)
+  - **lastname**: String (Required)
+- **email**: String (Required, must be a valid email address)
+- **password**: String (Required, minimum 6 characters)
+- **vehicle** (object):
+  - **color**: String (Required)
+  - **plate**: String (Required)
+  - **capacity**: Number (Required)
+  - **vehicleType**: String (Required, one of: `"car"`, `"motorcycle"`, `"auto"`)
+
+**Example Request Body:**
+```json
+{
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "password": "yourpassword",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Captain registered successfully.",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "caption": {
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "vehicle": {
+        "color": "red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "car"
+      }
+    }
+  }
+}
+```
+
+**Error Response (for existing captain):**
+```json
+{
+  "message": "Caption already exists"
+}
+```
+
