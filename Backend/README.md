@@ -144,7 +144,7 @@ No request body is required.
 # Captain Registration Endpoint Documentation
 
 ## Endpoint
-`POST /captain/register`
+`POST /captains/register`
 
 ## Description
 This endpoint registers a new captain by accepting personal details, login credentials, and vehicle information. It validates the payload and returns an authentication token along with the created captain's details.
