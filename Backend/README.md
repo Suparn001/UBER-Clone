@@ -44,7 +44,7 @@ The endpoint expects a JSON payload with the following structure:
 }
 ```
 
-
+---
 
 # Login Endpoint Documentation
 
@@ -92,6 +92,8 @@ The endpoint expects a JSON payload with the following properties:
 }
 ```
 
+---
+
 # Profile Endpoint Documentation
 
 ## Endpoint
@@ -101,7 +103,7 @@ The endpoint expects a JSON payload with the following properties:
 This authenticated endpoint retrieves the profile information of the currently logged-in user. It requires a valid authentication token.
 
 ## Authentication
-Requires valid JWT token in:
+Requires valid JWT token via:
 - Authorization header: `Bearer <token>` or
 - Cookie: `token=<token>`
 
@@ -117,6 +119,8 @@ Requires valid JWT token in:
 }
 ```
 
+---
+
 # Logout Endpoint Documentation
 
 ## Endpoint
@@ -126,7 +130,7 @@ Requires valid JWT token in:
 This endpoint logs out the current user by invalidating their active session. It requires an authenticated request with a valid JWT token.
 
 ## Authentication
-Requires valid JWT token in:
+Requires valid JWT token via:
 - Authorization header: `Bearer <token>` or 
 - Cookie: `token=<token>`
 
@@ -141,15 +145,21 @@ No request body is required.
 }
 ```
 
-# Captain Registration Endpoint Documentation
+---
 
-## Endpoint
+# Captain (Caption) Endpoints Documentation
+
+These endpoints manage the registration and authentication for captains.
+
+## 1. Registration Endpoint
+
+### Endpoint
 `POST /captains/register`
 
-## Description
-This endpoint registers a new captain by accepting personal details, login credentials, and vehicle information. It validates the payload and returns an authentication token along with the created captain's details.
+### Description
+Registers a new captain by accepting personal details, login credentials, and vehicle information. Validates the payload and returns an authentication token along with the registered captain's details. Note that in the payload, the captain’s name is provided as `fullname`.
 
-## Request Data
+### Request Data
 The endpoint expects a JSON payload with the following structure:
 
 - **fullname** (object):
@@ -184,22 +194,18 @@ The endpoint expects a JSON payload with the following structure:
 **Example Response:**
 ```json
 {
-  "success": true,
-  "message": "Captain registered successfully.",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "caption": {
-      "fullname": {
-        "firstname": "John",
-        "lastname": "Doe"
-      },
-      "email": "john.doe@example.com",
-      "vehicle": {
-        "color": "red",
-        "plate": "ABC123",
-        "capacity": 4,
-        "vehicleType": "car"
-      }
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "caption": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
     }
   }
 }
@@ -209,6 +215,111 @@ The endpoint expects a JSON payload with the following structure:
 ```json
 {
   "message": "Caption already exists"
+}
+```
+
+---
+
+## 2. Login Endpoint
+
+### Endpoint
+`POST /captains/login`
+
+### Description
+This endpoint logs in a captain by verifying the provided credentials. On successful login, it returns an authentication token along with the captain’s details.
+
+### Request Data
+The endpoint expects a JSON payload with the following properties:
+- **email**: String (Required, must be a valid email address)
+- **password**: String (Required, minimum 6 characters)
+
+**Example Request Body:**
+```json
+{
+  "email": "john.doe@example.com",
+  "password": "yourpassword"
+}
+```
+
+**Example Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "caption": {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+**Error Response:**
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+---
+
+## 3. Profile Endpoint
+
+### Endpoint
+`GET /captains/profile`
+
+### Description
+This authenticated endpoint retrieves the profile information of the currently logged-in captain. It requires a valid authentication token.
+
+### Authentication
+Requires valid JWT token via:
+- Authorization header: `Bearer <token>` or
+- Cookie: `token=<token>`
+
+**Example Response:**
+```json
+{
+  "userId": "64a7f8e2b5d3c2a1f8e9b7c3",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+---
+
+## 4. Logout Endpoint
+
+### Endpoint
+`GET /captains/logout`
+
+### Description
+Logs out the currently logged-in captain by invalidating their active session using the provided JWT token. After logout, the authentication cookie is cleared.
+
+### Authentication
+Requires valid JWT token via:
+- Authorization header: `Bearer <token>` or 
+- Cookie: `token=<token>`
+
+### Example Response
+```json
+{
+  "message": "Logged out successfully"
 }
 ```
 
